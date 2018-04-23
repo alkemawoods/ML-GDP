@@ -1,0 +1,50 @@
+﻿@model LeadingIndicator[]
+        
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Train Our Model</h2>
+        <form method="post">
+            <table>
+            <tr>
+                <td>Stock Index <input type="text" name="[0].StockIndex"  /></td>
+                <td>M2 Level <input type="text" name="[0].M2Level"  /></td>
+                <td>GDP <input type="text" name="[0].GdpOutput" /></td>
+            </tr>
+            <tr>
+                <td>Stock Index <input type="text" name="[1].StockIndex" /></td>
+                <td>M2 Level <input type="text" name="[1].M2Level" /></td>
+                <td>GDP <input type="text" name="[1].Gdpoutput" /></td>
+            </tr>
+            <tr>
+                <td>Stock Index <input type="text" name="[2].StockIndex" /></td>
+                <td>M2 Level <input type="text" name="[2].M2Level" /></td>
+                <td>GDP <input type="text" name="[2].Gdpoutput" /></td>
+            </tr>
+            <tr>
+                <td>Stock Index <input type="text" name="[3].StockIndex" /></td>
+                <td>M2 Level <input type="text" name="[3].M2Level" /></td>
+                <td>GDP <input type="text" name="[3].Gdpoutput" /></td>
+            </tr>
+            </table>
+            <input type="submit"/>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <h2>View Our Model</h2>
+        <h3><span style="color:red">@ViewData["A"]</span> * Stock Index + <span style="color:red">@ViewData["B"]</span> * M2 Level + <span style="color:red">@ViewData["C"]</span> = GDP</h3>
+    </div>
+</div>
+<div class="row">
+        <div class="col-md-12">
+        <h2 class="text-center">Make Prediction With Our Model</h2>
+        <form asp-controller="Home" asp-action="Predict" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#pGDP">
+            Stock Index <input type="text" name="StockIndex"/>
+            M2 Level <input type="text" name="M2Level"/>
+            <button type="submit">Predict</button>
+        </form>
+        <div><h3>Predicted GDP:</h3> <h3 id="pGDP" style="color: red; font-weight: bold"></h3></div>
+</div>
