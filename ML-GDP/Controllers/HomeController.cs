@@ -1,17 +1,15 @@
-﻿using System;
+﻿using Accord.Statistics.Models.Regression.Linear;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using ML_GDP.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using ML_GDP.Models;
-using Accord.Statistics.Models.Regression.Linear;
-using Microsoft.AspNetCore.Session;
-using Microsoft.Extensions.Caching.Memory;
+using Xaye.Fred;
 
 namespace ML_GDP.Controllers
 {
-    public class HomeController : Controller
+	public class HomeController : Controller
     {
         private IMemoryCache _cache;
 
@@ -22,7 +20,20 @@ namespace ML_GDP.Controllers
 
         public IActionResult Index()
         {
-            ViewData["A"] = "A";
+			#region "Training Data"
+			Fred fred = new Fred("b934f8d978996f0199380939ab42f907", true);
+			var sp500 = fred.GetSeriesObservations("SP500", frequency: Frequency.Quarterly);
+			var m2 = fred.GetSeriesObservations("M2", frequency: Frequency.Quarterly);
+			var unemployment = fred.GetSeriesObservations("M08297USM548NNBR", frequency: Frequency.Quarterly);
+			var consumerSentiment = fred.GetSeriesObservations("UMCSENT", frequency: Frequency.Quarterly);
+			var interestSpread = fred.GetSeriesObservations("T10YFF", frequency: Frequency.Quarterly);
+
+			var gdpGrowth = fred.GetSeriesObservations("A191RL1Q225SBEA", frequency: Frequency.Quarterly);
+			#endregion
+
+			int numOfObservations = System.Math.Min(m2.Count(), sp500.Count());
+			
+			ViewData["A"] = "A";
             ViewData["B"] = "B";
             ViewData["C"] = "C";
             return View();
